@@ -1,0 +1,11 @@
+1.            Установить пакет R: https://www.r-project.org/
+
+2.            Ознакомится с языком R. (https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)
+
+3.            Установить пакет Bioconductor (https://www.bioconductor.org/)
+
+4.            Ознакомиться с базой данных по экспрессии генов Gene Expression Omnibus (GEO): https://www.ncbi.nlm.nih.gov/geo/
+
+5.            Освоить работу с модулем доcтупа к БД GEO :  GEOquery (Bioconductor)
+
+6.            Загрузить экспрессионные данные из GSE11923, используя GEOquery.
