@@ -1,18 +1,27 @@
 library(GEOquery)
-#gse <- getGEO('GSE135875',GSEMatrix=FALSE)
-
-#show(pData(phenoData(gse[[1]]))[1,c(1:25)])
-gds[["GSE11923_series_matrix.txt.gz"]]@assayData[["exprs"]]
-t <- read.table(file = "D://R programming//18_10_21//mgi_data.txt", header = TRUE, fill = TRUE, sep = "\t")
-probeset <- t$Probeset.ID
-h <- hash(unique(t$MGI.ID), vector("list", length(unique(t$MGI.ID))))
-for (i in 1:length(probeset)){
-  if (is.null(h$t$MGI.ID[i])) 
-    h[t$MGI.ID[i]] <- vector()
-  print(length(h[[t$MGI.ID[i]]]))
-  h[[t$MGI.ID[i]]][length(h[[t$MGI.ID[i]]]) + 1] = t$Probeset.ID[i]
+gse11923 <- getGEO('GSE11923',GSEMatrix=TRUE)
+experiment.data <- gse11923[["GSE11923_series_matrix.txt.gz"]]@assayData[["exprs"]]
+f <- read.delim(file="D://R programming//18_10_21//mgi_data.txt", header=TRUE, sep="\t")
+for (i in 1:100){
+  if (unique(f$MGI.ID)[i] != "---")
+    draw_graph_for_mgi(unique(f$MGI.ID)[i], i)
 }
 
-h2 <- hash(t$MGI.ID, t$Probeset.ID)
 
+draw_graph_for_mgi <- function(mgi, ind){
+  max.val <- 0
+  probes.by.mgi <- f[f$MGI.ID == mgi,]$Probeset.ID
+  for (i in 1:length(probes.by.mgi)){
+    max.val = max(experiment.data[probes.by.mgi[i],], max.val)
+  }
+  jpeg(paste("D://R programming//18_10_21//rplot",ind,".jpg", sep=""))
+  plot(experiment.data[probes.by.mgi[1],], type = "o", ylim = c(0,max.val))
+  title(main=mgi, col.main="red", font.main=4)
+  if (length(probes.by.mgi) > 1){
+    for (i in 2:length(probes.by.mgi)){
+      lines(experiment.data[probes.by.mgi[i],], type="o")
+    }
+  }
+  dev.off()
+}
 
